@@ -12,7 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 
 /**
  * @author jfoley
@@ -21,7 +21,6 @@ public class BookzServer extends AbstractHandler {
 	Server jettyServer;
 	HTMLView view;
 	Model model;
-	int counter;
 
 	public BookzServer(String baseURL, int port) throws IOException {
 		view = new HTMLView(baseURL);
@@ -87,31 +86,24 @@ public class BookzServer extends AbstractHandler {
 			throws IOException, ServletException {
 		System.out.println(jettyReq);
 
-		
 		String method = req.getMethod();
 		String path = req.getPathInfo();
 
 		if ("GET".equals(method)) {
+			if("/robots.txt".equals(path)) {
+				// We're returning a fake file? Here's why: http://www.robotstxt.org/
+				resp.setContentType("text/plain");
+				try (PrintWriter txt = resp.getWriter()) {
+					txt.println("User-Agent: *");
+					txt.println("Disallow: /");
+				}
+				return;
+			}
+			
 			String titleCmd = Util.getAfterIfStartsWith("/title/", path);
 			if(titleCmd != null) {
 				char firstChar = titleCmd.charAt(0);
 				view.showBookCollection(this.model.getBooksStartingWith(firstChar), resp);
-			}
-			
-			
-
-			String id = Util.getAfterIfStartsWith("/tagBook/", path);
-			if(id != null) {
-				System.out.println("id" + id);
-				model.addTag(id);
-				counter++;
-				System.out.println(counter);
-				view.showFrontPage(model, resp);
-			}
-			
-			String tag = Util.getAfterIfStartsWith("/review/", path);
-			if(tag!= null ){
-				view.showTaggedBooks(model.taggedBooks, resp);
 			}
 
 			// Check for startsWith and substring
@@ -126,16 +118,5 @@ public class BookzServer extends AbstractHandler {
 				return;
 			}
 		}
-	}
-
-	public void handleTaggedPage(String resource, Request jettyReq, HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
-		System.out.println(jettyReq);
-
-		String method = req.getMethod();
-		String path = req.getPathInfo();
-
-
-
 	}
 }

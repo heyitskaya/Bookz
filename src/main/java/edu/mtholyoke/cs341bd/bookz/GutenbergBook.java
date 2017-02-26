@@ -27,6 +27,4 @@ public class GutenbergBook {
   public String getGutenbergURL() {
     return "http://www.gutenberg.org/ebooks/"+getBookNumber();
   }
-  
-
 }
