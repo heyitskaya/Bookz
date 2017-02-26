@@ -1,4 +1,4 @@
-package edu.mtholyoke.cs341bd.bookz;
+package src.main.java.edu.mtholyoke.cs341bd.bookz;
 
 import javax.annotation.Nullable;
 

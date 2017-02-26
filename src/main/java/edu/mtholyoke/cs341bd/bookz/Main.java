@@ -1,7 +1,5 @@
-package edu.mtholyoke.cs341bd.bookz;
-
-import java.io.IOException;
-
+package src.main.java.edu.mtholyoke.cs341bd.bookz;
+import java.io.*;
 public class Main {
   /**
    * This is the entrance point of the Writr server. It parses arguments and starts up the application.
