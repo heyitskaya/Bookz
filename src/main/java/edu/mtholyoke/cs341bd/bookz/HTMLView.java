@@ -1,6 +1,7 @@
 package src.main.java.edu.mtholyoke.cs341bd.bookz;
 
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -33,6 +34,22 @@ public class HTMLView {
 		html.println("  <body>");
 		html.println("  <a href='/front'><h1 class=\"logo\">"+title+"</h1></a>");
 	}
+	
+	
+	public static void printSearchForm(PrintWriter output) {
+	    output.println("<div class=\"form\">");
+	    output.println("  <form action=\"submit\" method=\"GET\">"); //changed to get
+	   // output.println("  <label>User: <input type=\"text\" name=\"user\" " +
+	     //   "/></label>");             //changed this
+	   output.println(" <label><br>Title: <input type=\"text\" name=\"title\" " +
+	        "/></label>");
+	//    output.println("  <label><br>Message: <input type=\"text\" " +
+	//        "name=\"message\" /></label>");
+	   output.println("     <br><input type=\"submit\" value=\"Search!\" />");
+	    output.println("  </form>");
+	    output.println("</div>");
+	  }
+
 
 	public String getStaticURL(String resource) {
 		return "static/" + resource;
@@ -53,6 +70,10 @@ public class HTMLView {
 	void showFrontPage(Model model, HttpServletResponse resp) throws IOException {
 		try (PrintWriter html = resp.getWriter()) {
 			printPageStart(html, "Bookz");
+			
+			System.out.println("print search form");
+		    HTMLView.printSearchForm(html);
+		    
 
 			html.println("<h3>Browse books by title</h3>");
 

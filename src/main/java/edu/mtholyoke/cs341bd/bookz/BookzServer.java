@@ -8,11 +8,17 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.resource.Resource;
 
+//import edu.mtholyoke.cs341bd.writr.WritrPost;
+//import edu.mtholyoke.cs341bd.writr.WritrView;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author jfoley
@@ -26,6 +32,7 @@ public class BookzServer extends AbstractHandler {
 		view = new HTMLView(baseURL);
 		jettyServer = new Server(port);
 		model = new Model();
+		
 
 		// We create a ContextHandler, since it will catch requests for us under
 		// a specific path.
@@ -88,6 +95,13 @@ public class BookzServer extends AbstractHandler {
 
 		String method = req.getMethod();
 		String path = req.getPathInfo();
+		
+		//added 
+		
+		//PrintWriter html = resp.getWriter();
+		//System.out.println("print search form");
+	    //HTMLView.printSearchForm(html);
+		
 
 		if ("GET".equals(method)) {
 			if("/robots.txt".equals(path)) {
@@ -118,5 +132,41 @@ public class BookzServer extends AbstractHandler {
 				return;
 			}
 		}
+		
+		//added part
+		try (PrintWriter html = resp.getWriter()) {
+	    	
+		    //  WritrView.printWritrPageStart(html, "Writr", metaURL, getStaticURL
+		      //    ("writr.css"));
+
+		      // Print the form at the top of the page
+		
+		      // Print all of our messages
+		      html.println("<div class=\"body\">");
+
+		      // get a copy to sort:
+		      /**
+		      ArrayList<Integer> messages = new ArrayList<>(model.getPosts().keySet());
+		      Collections.sort(messages);
+		      Collections.reverse(messages);
+
+		      StringBuilder messageHTML = new StringBuilder();
+		      for (int postId : messages) {
+		        WritrPost writrPost = model.getPost(postId);
+		        WritrView.displayPost(messageHTML, writrPost);
+		      }
+		      html.println(messageHTML);
+		      html.println("</div>");
+
+		      // when we have a big page,
+		      if (messages.size() > 25) {
+		        // Print the submission form again at the bottom of the page
+		        WritrView.printWritrForm(html);
+		      }
+		     
+		      WritrView.printWritrPageEnd(html);
+		    	
+		    	**/
+		    }
 	}
 }
