@@ -1,5 +1,5 @@
 package src.main.java.edu.mtholyoke.cs341bd.bookz;
-
+import java.util.*;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
@@ -9,6 +9,7 @@ import java.util.List;
 public class HTMLView {
 
 	private String metaURL;
+	public int resultsPerPage=10;
 
 	public HTMLView(String baseURL) {
 		this.metaURL = "<base href=\"" + baseURL + "\">";
@@ -36,6 +37,8 @@ public class HTMLView {
 	}
 	
 	
+	
+	
 	public static void printSearchForm(PrintWriter output) {
 	    output.println("<div class=\"form\">");
 	    output.println("  <form action=\"submit\" method=\"GET\">"); //changed to get
@@ -49,6 +52,18 @@ public class HTMLView {
 
 	public String getStaticURL(String resource) {
 		return "static/" + resource;
+	}
+	
+	public static void printPaging(PrintWriter output,int numPages, String titleSearched){
+		int page=1;
+		for(page = 1; page <= numPages; page++) {
+			Map<String, String> m= new HashMap<String, String>();
+			m.put("title",titleSearched );
+			m.put("page",Integer.toString(page)); //put these in the map
+			String newURL=Util.encodeParametersInURL(m,"/title");
+			output.println("<a href='/title/"+page+"'>"+page+"</a> "); //maybe
+		}
+		
 	}
 
 	/**
@@ -108,6 +123,8 @@ public class HTMLView {
 		html.println("</a>");
 		html.println("</div>");
 	}
+	
+	
 
 	public void showBookCollection(List<GutenbergBook> theBooks, HttpServletResponse resp) throws IOException {
 		try (PrintWriter html = resp.getWriter()) {

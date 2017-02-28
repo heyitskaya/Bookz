@@ -44,7 +44,7 @@ public class Util {
     }
     return null;
   }
-
+//create a map with page mapping to different page every time we generate a link
   public static String encodeParametersInURL(Map<String, String> params, String url) {
 		StringBuilder output = new StringBuilder();
 		output.append(url);

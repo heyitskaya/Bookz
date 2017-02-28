@@ -30,12 +30,14 @@ public class BookzServer extends AbstractHandler {
 	HTMLView view;
 	Model model;
 	String titleSearched;
+	int numPages;
 	//List<GutenbergBook> booksReturned;
 
 	public BookzServer(String baseURL, int port) throws IOException {
 		view = new HTMLView(baseURL);
 		jettyServer = new Server(port);
 		model = new Model();
+		
 		
 
 		// We create a ContextHandler, since it will catch requests for us under
@@ -59,6 +61,7 @@ public class BookzServer extends AbstractHandler {
 		collection.addHandler(staticCtx);
 		collection.addHandler(defaultCtx);
 		jettyServer.setHandler(collection);
+		
 	}
 
 	/**
@@ -104,6 +107,8 @@ public class BookzServer extends AbstractHandler {
 
 		String method = req.getMethod();
 		String path = req.getPathInfo();
+		System.out.println("Should be printing paging");
+		
 		
 		//added 
 		
@@ -127,10 +132,15 @@ public class BookzServer extends AbstractHandler {
 				Map<String, String[]> allInputs = req.getParameterMap();
 				titleSearched = req.getParameter("title");
 				req.getParameter("page"); //getting the page number
-				System.out.println("title="+titleSearched);
 				List<GutenbergBook> booksReturned=this.model.getBooksWithString(titleSearched);
-				System.out.println("showing search results");
+				System.out.println("numBooks returned "+booksReturned.size());
+				numPages=booksReturned.size()/10+1;
+				System.out.println("numPages "+numPages);
+				
+				
+				view.printPaging(resp.getWriter(),numPages,titleSearched);
 				view.showBookCollection(booksReturned,resp);
+				
 			}
 			
 			String titleCmd = Util.getAfterIfStartsWith("/title/", path);
