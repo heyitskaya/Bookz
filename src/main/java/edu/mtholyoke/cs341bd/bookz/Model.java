@@ -26,13 +26,12 @@ public class Model{
 		return library.get(id);
 	}
 	
-public void addTag(String bookID){
-		
+	public void addTag(String bookID){
 		GutenbergBook book = library.get(bookID) ; 
 		if(book!= null){
 		taggedBooks.add(library.get(bookID));
 		}
-		}
+	}
 
 	public List<GutenbergBook> getBooksStartingWith(char firstChar) {
 		// TODO, maybe it makes sense to not compute these every time.

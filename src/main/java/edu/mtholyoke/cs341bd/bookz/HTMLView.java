@@ -59,7 +59,6 @@ public class HTMLView {
 	public String getStaticURL(String resource) {
 		return "static/" + resource;
 	}
-	
 	public static void printPaging(PrintWriter output,int numPages, String titleSearched){
 		int page=1;
 		for(page = 1; page <= numPages; page++) {
@@ -83,6 +82,8 @@ public class HTMLView {
 		html.println("  </body>");
 		html.println("</html>");
 	}
+	
+	
 	
 
 	void showFrontPage(Model model, HttpServletResponse resp) throws IOException {
@@ -133,13 +134,16 @@ public class HTMLView {
 	}
 	
 	
-
-	public void showBookCollection(List<GutenbergBook> theBooks, HttpServletResponse resp) throws IOException {
+//page number
+	public void showBookCollection(List<GutenbergBook> theBooks, HttpServletResponse resp,int pageNumber) throws IOException {
+		int start=(pageNumber-1)*10;
 		try (PrintWriter html = resp.getWriter()) {
 			printPageStart(html, "Bookz");
-
-			for (int i = 0; i < Math.min(20,theBooks.size()); i++) {
-				printBookHTML(html, theBooks.get(i));
+			for (int i = start; i < start+9;i++){
+				if(i<theBooks.size())
+				{	
+					printBookHTML(html, theBooks.get(i));
+				}
 			}
 
 			printPageEnd(html);

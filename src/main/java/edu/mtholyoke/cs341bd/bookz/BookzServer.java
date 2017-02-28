@@ -156,14 +156,28 @@ public class BookzServer extends AbstractHandler {
 				
 				
 				view.printPaging(resp.getWriter(),numPages,titleSearched);
-				view.showBookCollection(booksReturned,resp);
+				//System.out.println("showBookCollection pageNumber "+allInputs.get("page").toString());
+				int currPageNumber;
+				if(Util.join(allInputs.get("page"))==null){
+					view.showBookCollection(booksReturned,resp,1);
+					System.out.println("We are displaying the first page");
+				}
+				else
+				{
+					currPageNumber =Integer.parseInt(Util.join(allInputs.get("page")));
+					view.showBookCollection(booksReturned,resp, currPageNumber);
+					System.out.println("displaying collection of books from "+currPageNumber);
+					
+				}
+						
+				
 				
 			}
 			
 			String titleCmd = Util.getAfterIfStartsWith("/title/", path);
 			if(titleCmd != null) {
 				char firstChar = titleCmd.charAt(0);
-				view.showBookCollection(this.model.getBooksStartingWith(firstChar), resp);
+				view.showBookCollection(this.model.getBooksStartingWith(firstChar), resp,1); //I made this up
 			}
 
 			// Check for startsWith and substring
