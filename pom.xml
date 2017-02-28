@@ -49,6 +49,7 @@
   </dependencies>
 
   <build>
+  <sourceDirectory>src</sourceDirectory>
     <plugins>
       <!-- build a jar with relative classpath -->
       <plugin>
