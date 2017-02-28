@@ -9,7 +9,11 @@ import java.util.List;
 public class HTMLView {
 
 	private String metaURL;
+
 	public int resultsPerPage=10;
+
+	String x = "Tagged Entires";
+
 
 	public HTMLView(String baseURL) {
 		this.metaURL = "<base href=\"" + baseURL + "\">";
@@ -30,6 +34,8 @@ public class HTMLView {
 		html.println("  <head>");
 		html.println("    <title>" + title + "</title>");
 		html.println("    " + metaURL);
+		html.println("  <a href='/review/'><h1 class=\"logo\">"+ x+"</h1></a>");
+
 		html.println("    <link type=\"text/css\" rel=\"stylesheet\" href=\"" + getStaticURL("bookz.css") + "\">");
 		html.println("  </head>");
 		html.println("  <body>");
@@ -120,6 +126,8 @@ public class HTMLView {
 		}
 		html.println("<a href='"+book.getGutenbergURL()+"'>On Project Gutenberg</a>");
 		// TODO, finish up fields.
+		html.println("<a href='/tagBook/"+book.id+"'>Click to Tag Book</a>");
+
 		html.println("</a>");
 		html.println("</div>");
 	}
@@ -132,6 +140,18 @@ public class HTMLView {
 
 			for (int i = 0; i < Math.min(20,theBooks.size()); i++) {
 				printBookHTML(html, theBooks.get(i));
+			}
+
+			printPageEnd(html);
+		}
+	}
+	
+	public void showTaggedBooks(List<GutenbergBook> taggedBooks, HttpServletResponse resp) throws IOException {
+		try (PrintWriter html = resp.getWriter()) {
+			printPageStart(html, "Bookz");
+
+			for (GutenbergBook b: taggedBooks) {
+				printBookHTML(html,b);
 			}
 
 			printPageEnd(html);
