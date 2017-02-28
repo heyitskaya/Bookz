@@ -31,6 +31,8 @@ public class BookzServer extends AbstractHandler {
 	Model model;
 	String titleSearched;
 	//List<GutenbergBook> booksReturned;
+	int counter;
+
 
 	public BookzServer(String baseURL, int port) throws IOException {
 		view = new HTMLView(baseURL);
@@ -122,6 +124,21 @@ public class BookzServer extends AbstractHandler {
 				}
 				return;
 			}
+
+			String id = Util.getAfterIfStartsWith("/tagBook/", path);
+			if(id != null) {
+				System.out.println("id" + id);
+				model.addTag(id);
+				counter++;
+				System.out.println(counter);
+				view.showFrontPage(model, resp);
+			}
+
+			String tag = Util.getAfterIfStartsWith("/review/", path);
+			if(tag!= null ){
+				view.showTaggedBooks(model.taggedBooks, resp);
+			}
+
 			
 			if("/submit".equals(path)) {
 				Map<String, String[]> allInputs = req.getParameterMap();
@@ -188,4 +205,13 @@ public class BookzServer extends AbstractHandler {
 		    	**/
 		    }
 	}
+
+	public void handleTaggedPage(String resource, Request jettyReq, HttpServletRequest req, HttpServletResponse resp)
+			throws IOException, ServletException {
+		System.out.println(jettyReq);
+
+		String method = req.getMethod();
+		String path = req.getPathInfo();
+
+}
 }
