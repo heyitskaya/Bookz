@@ -66,8 +66,8 @@ public class HTMLView {
 			Map<String, String> m= new HashMap<String, String>();
 			m.put("title",titleSearched );
 			m.put("page",Integer.toString(page)); //put these in the map
-			String newURL=Util.encodeParametersInURL(m,"/title");
-			output.println("<a href='/title/"+page+"'>"+page+"</a> "); //maybe
+			String newURL=Util.encodeParametersInURL(m,"/submit");
+			output.println("<a href='"+newURL+"'>"+page+"</a> "); //maybe
 		}
 		
 	}
