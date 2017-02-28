@@ -1,5 +1,5 @@
 package src.main.java.edu.mtholyoke.cs341bd.bookz;
-
+import java.util.*;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -11,6 +11,7 @@ import org.eclipse.jetty.util.resource.Resource;
 //import edu.mtholyoke.cs341bd.writr.WritrPost;
 //import edu.mtholyoke.cs341bd.writr.WritrView;
 
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 
 /**
  * @author jfoley
@@ -27,6 +29,8 @@ public class BookzServer extends AbstractHandler {
 	Server jettyServer;
 	HTMLView view;
 	Model model;
+	String titleSearched;
+	//List<GutenbergBook> booksReturned;
 
 	public BookzServer(String baseURL, int port) throws IOException {
 		view = new HTMLView(baseURL);
@@ -88,6 +92,11 @@ public class BookzServer extends AbstractHandler {
 	 *             -- If we ask for something that's not there, this might
 	 *             happen.
 	 */
+	//everything you request to server is a request 
+	//sort=author
+	//p=13
+	//cat=dog are all in the parameterMap
+	//so we can access page number by key "p"
 	@Override
 	public void handle(String resource, Request jettyReq, HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
@@ -112,6 +121,16 @@ public class BookzServer extends AbstractHandler {
 					txt.println("Disallow: /");
 				}
 				return;
+			}
+			
+			if("/submit".equals(path)) {
+				Map<String, String[]> allInputs = req.getParameterMap();
+				titleSearched = req.getParameter("title");
+				req.getParameter("page"); //getting the page number
+				System.out.println("title="+titleSearched);
+				List<GutenbergBook> booksReturned=this.model.getBooksWithString(titleSearched);
+				System.out.println("showing search results");
+				view.showBookCollection(booksReturned,resp);
 			}
 			
 			String titleCmd = Util.getAfterIfStartsWith("/title/", path);

@@ -39,17 +39,13 @@ public class HTMLView {
 	public static void printSearchForm(PrintWriter output) {
 	    output.println("<div class=\"form\">");
 	    output.println("  <form action=\"submit\" method=\"GET\">"); //changed to get
-	   // output.println("  <label>User: <input type=\"text\" name=\"user\" " +
-	     //   "/></label>");             //changed this
 	   output.println(" <label><br>Title: <input type=\"text\" name=\"title\" " +
 	        "/></label>");
-	//    output.println("  <label><br>Message: <input type=\"text\" " +
-	//        "name=\"message\" /></label>");
 	   output.println("     <br><input type=\"submit\" value=\"Search!\" />");
 	    output.println("  </form>");
 	    output.println("</div>");
 	  }
-
+	
 
 	public String getStaticURL(String resource) {
 		return "static/" + resource;
@@ -66,6 +62,7 @@ public class HTMLView {
 		html.println("  </body>");
 		html.println("</html>");
 	}
+	
 
 	void showFrontPage(Model model, HttpServletResponse resp) throws IOException {
 		try (PrintWriter html = resp.getWriter()) {
@@ -102,7 +99,7 @@ public class HTMLView {
 	private void printBookHTML(PrintWriter html, GutenbergBook book) {
 		html.println("<div class='book'>");
 		html.println("<a class='none' href='/book/"+book.id+"'>");
-		html.println("<div class='title'>"+book.title+"</div>");
+		html.println("<div class='title'>"+book.longTitle+"</div>");
 		if(book.creator != null) {
 			html.println("<div class='creator'>" + book.creator + "</div>");
 		}
