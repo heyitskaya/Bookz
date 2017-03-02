@@ -1,5 +1,10 @@
-/target/
-/bin/
+*.iml
+.idea
 .project
 .classpath
 .settings
+target
+*.class
+*.jar
+catalog.jsonl.gz
+dependency-reduced-pom.xml
