@@ -109,7 +109,7 @@ public class BookzServer extends AbstractHandler {
 
 		String method = req.getMethod();
 		String path = req.getPathInfo();
-		System.out.println("Should be printing paging");
+	
 		
 		
 		//added 
@@ -151,7 +151,13 @@ public class BookzServer extends AbstractHandler {
 				req.getParameter("page"); //getting the page number
 				List<GutenbergBook> booksReturned=this.model.getBooksWithString(titleSearched);
 				System.out.println("numBooks returned "+booksReturned.size());
-				numPages=booksReturned.size()/10+1;
+				if(booksReturned.size()%10!=0)
+				{
+					numPages=booksReturned.size()/10+1;
+				}
+				else{
+					numPages=booksReturned.size()/10;
+				}
 				System.out.println("numPages "+numPages);
 				
 				

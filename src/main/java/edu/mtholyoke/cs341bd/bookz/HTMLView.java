@@ -12,8 +12,7 @@ public class HTMLView {
 
 	public int resultsPerPage=10;
 
-	String x = "Tagged Entires";
-
+	String x = "Tagged Entries";
 
 	public HTMLView(String baseURL) {
 		this.metaURL = "<base href=\"" + baseURL + "\">";
@@ -90,7 +89,6 @@ public class HTMLView {
 		try (PrintWriter html = resp.getWriter()) {
 			printPageStart(html, "Bookz");
 			
-			System.out.println("print search form");
 		    HTMLView.printSearchForm(html);
 		    
 
@@ -139,7 +137,7 @@ public class HTMLView {
 		int start=(pageNumber-1)*10;
 		try (PrintWriter html = resp.getWriter()) {
 			printPageStart(html, "Bookz");
-			for (int i = start; i < start+9;i++){
+			for (int i = start; i < start+10;i++){
 				if(i<theBooks.size())
 				{	
 					printBookHTML(html, theBooks.get(i));
